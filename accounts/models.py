@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 
 from .managers import UserExtraQuerySet
@@ -10,6 +10,7 @@ class User(AbstractUser):
     subscribed = models.BooleanField(default=False, verbose_name="Подписан на рассылку")
     last_email_sent = models.DateTimeField(null=True, blank=True, verbose_name="Последняя рассылка")
 
+    objects = UserManager()
     extra = UserExtraQuerySet.as_manager()
 
     def __str__(self):
