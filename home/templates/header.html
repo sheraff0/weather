@@ -1,0 +1,26 @@
+<a href="{% url 'home' %}" class="header-title"><h1>Погода в мире</h1></a>
+
+<div class="header-items">
+  {% if request.user.is_active %}
+    {% if request.user.subscribed %}
+      <a class="header-item" href="{% url 'unsubscribe' %}">Отписаться</a>
+    {% else %}
+      <a class="header-item" href="{% url 'subscribe' %}">Подписаться</a>
+    {% endif %}
+
+    <div class="header-item">{{ request.user.username }}</div>
+
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit">Выйти</button>
+    </form>
+  {% else %}
+    <a href="{% url 'register' %}">Зарегистрироваться</a>
+    <a href="{% url 'login' %}">Войти</a>
+  {% endif %}
+
+</div>
+
+{% if notification %}
+  <div class="notification">{{ notification }}</div>
+{% endif %}

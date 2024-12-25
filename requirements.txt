@@ -1,0 +1,9 @@
+Django
+psycopg2-binary
+requests
+Pillow
+PyJWT
+apscheduler
+pytz
+pydantic
+ipython

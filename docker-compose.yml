@@ -1,0 +1,31 @@
+x-web: &web
+  build: .
+  volumes:
+    - .:/app
+  depends_on:
+    - db
+  env_file:
+    - .env
+
+services:
+  web:
+    <<: *web
+    container_name: ${PROJECT_PREFIX}_web
+    ports:
+      - "${WEB_APP_PORT}:8000"
+    command: run/web.sh
+
+  scheduler:
+    <<: *web
+    container_name: ${PROJECT_PREFIX}_scheduler
+    ports:
+      - "${SCHEDULER_APP_PORT}:8000"
+    command: run/scheduler.sh
+
+  db:
+    image: postgres:16
+    container_name: ${PROJECT_PREFIX}_db
+    env_file:
+      - .env
+    volumes:
+      - ./data:/var/lib/postgresql/data

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="city-page__title">
+    <span class="city">{{ city.title }}</span>
+    <span class="country">{{ city.country.title }}</span>
+  </div>
+  <div class="city-page__subtitle">
+    <span class="time">{{ city.time_hour }}</span>
+    <span class="temperature">{% if city.current.weather.temp_c > 0 %}+{% endif %}{{ city.current.weather.temp_c|floatformat:0 }}°</span>
+    <img class="condition-icon" src="{{ city.current.weather.condition.icon }}">
+    <span class="condition-text">{{ city.current.weather.condition.text }}</span>
+  </div>
+  {% for day in city.weather.all %}
+    <h3>{{ day.date }}</h3>
+    <div class="weather-hours__container">
+      {% for hour in day.hours.all %}
+        <div class="weather-hour__card{% if not hour.is_future %} past{% endif %}">
+          <img class="weather-hour__icon" src="{{ hour.condition.icon }}">
+          <div class="weather-hour__temperature">{% if hour.temp_c > 0 %}+{% endif %}{{ hour.temp_c|floatformat:0 }}°</div>
+          <div class="weather-hour__time">{{ hour.time_hour }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+{% endblock %}

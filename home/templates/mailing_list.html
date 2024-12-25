@@ -1,0 +1,5 @@
+{% for city, item in items %}
+  <p><b>{{ city.title }}:</b></p>
+  <p><u>{{ item.date }}</u>:</p>
+  <p>Средняя температура: {% if item.avgtemp_c %}{{ item.date }}:</p>
+{% endfor %}

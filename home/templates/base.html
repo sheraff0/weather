@@ -1,0 +1,20 @@
+{% load static %}<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+  <body>
+    <section class="header">
+      {% block header %}
+        {% include 'header.html' %}
+      {% endblock %}
+    </section>
+    <section class="content">
+      {% block content %}{% endblock %}
+    </section>
+    <section class="footer">
+    </section>
+  </body>
+</html>
