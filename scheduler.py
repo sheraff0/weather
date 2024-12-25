@@ -7,6 +7,8 @@ django.setup()
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.timezone import now
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -37,15 +39,21 @@ def update_weather_job():
 # @scheduler.scheduled_job("cron", minute="*/15")
 def mailing_list():
     qs = get_user_model().extra.mailing_list()
-    emails = [*qs.values_list("email", flat=True)]
+    items = City.objects.random_choices_forecast(grouped=True)
+    msg = "https://weather.7-gor.ru"
+    html_msg = render_to_string("mailing_list.html", {"items": items})
 
     print(HEADER)
     print("...Рассылка email по подписке...", flush=True)
-    random_choices_forecast = City.objects.random_choices_forecast(grouped=True)
-    print([(city, [(x.date, x.avgtemp_c) for x in items])
-           for city, items in random_choices_forecast], flush=True)
-    print(emails, flush=True)
-    # send_mail("Погода в мире", )
+
+    for user in qs:
+        email = user.email
+        print(f"Отправка email по подписке: {email}", flush=True)
+        print(html_msg, flush=True)
+        send_mail("Погода в мире", msg, settings.EMAIL_HOST, [email], html_message=html_msg)
+        user.last_email_sent = now()
+        user.save()
+
 
 if __name__ == "__main__":
     try:

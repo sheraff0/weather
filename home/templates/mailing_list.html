@@ -1,5 +1,13 @@
-{% for city, item in items %}
-  <p><b>{{ city.title }}:</b></p>
-  <p><u>{{ item.date }}</u>:</p>
-  <p>Средняя температура: {% if item.avgtemp_c %}{{ item.date }}:</p>
+{% load temperature %}
+<p>Сделали для Вас подборку прогноза погоды по городам мира!</p>
+{% for city, days in items %}
+  <h1>{{ city.title }}:</h1>
+  {% for day in days %}
+    <p><b><u>{{ day.date }}</u>:</b></p>
+    <p>Средняя температура: {{ day.avgtemp_c|temperature:1 }} (от {{ day.mintemp_c|temperature }} до {{ day.maxtemp_c|temperature }})</p>
+    <p>Ветер, до: {{ day.maxwind_kph }} км/ч</p>
+    <p>Осадки: {{ day.totalprecip_mm }} мм</p>
+    <p>Влажность: {{ day.avghumidity }}%</p>
+    <p>---<br></p>
+  {% endfor %}
 {% endfor %}

@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load temperature %}
 
 {% block content %}
 <div class="city-cards__container">
   {% for city in cities %}
     <a class="city-card" href="{% url 'city' pk=city.pk %}">
       <div class="city-card__overlay {{ city.current.weather.wet_or_dry }}">
-        {% if city.current.weather.temp_c > 0 %}+{% endif %}{{ city.current.weather.temp_c|floatformat:0 }}°
+        {{ city.current.weather.temp_c|temperature }}
         <span class="condition__text">{{ city.current.weather.condition.text }}</span>
       </div>
       <img class="city-card__img" src="{{ city.image.url }}"/>

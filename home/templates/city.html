@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load temperature %}
 
 {% block content %}
   <div class="city-page__title">
@@ -7,7 +8,7 @@
   </div>
   <div class="city-page__subtitle">
     <span class="time">{{ city.time_hour }}</span>
-    <span class="temperature">{% if city.current.weather.temp_c > 0 %}+{% endif %}{{ city.current.weather.temp_c|floatformat:0 }}°</span>
+    <span class="temperature">{{ city.current.weather.temp_c|temperature:1 }}</span>
     <img class="condition-icon" src="{{ city.current.weather.condition.icon }}">
     <span class="condition-text">{{ city.current.weather.condition.text }}</span>
   </div>
