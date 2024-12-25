@@ -2,6 +2,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView
+from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
 
@@ -10,6 +11,7 @@ from accounts.views import (
     subscribe, unsubscribe,
 )
 from home.views import HomeView, CityView
+from .sitemaps import HomeSitemap, CitySitemap
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -21,6 +23,10 @@ urlpatterns = [
     path(r"auth/verify-email/<str:token>/", verify_email, name="verify_email"),
     path("accounts/subscribe", subscribe, name="subscribe"),
     path("accounts/unsubscribe", unsubscribe, name="unsubscribe"),
+    path("sitemap.xml", sitemap, {"sitemaps": {
+        "home": HomeSitemap(),
+        "city": CitySitemap(),
+    }}, name="django.contrib.sitemaps.views.sitemap",)
 ]
 
 urlpatterns += staticfiles_urlpatterns()
