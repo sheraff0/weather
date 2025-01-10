@@ -178,3 +178,7 @@ section {
 .weather-hour__card.past {
   opacity: 50%;
 }
+
+.city-page__image img {
+  width: 90%;
+}
